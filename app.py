@@ -4,6 +4,7 @@ import os
 from flask import Flask, redirect, request, session, jsonify
 from dotenv import load_dotenv
 from services.spotify import build_taste_profile
+from services.lastfm import search_by_tag, build_candidate_pool
 
 load_dotenv()
 
@@ -72,5 +73,10 @@ def taste_profile():
     session['taste_profile'] = profile  # store it for later use
     return jsonify(profile)
 
+@app.route('/test-lastfm')
+def test_lastfm():
+    # Quick test route — we'll remove this later
+    tracks = search_by_tag('progressive house', limit=5)
+    return jsonify(tracks)
 if __name__ == '__main__':
     app.run(debug=True)
