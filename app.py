@@ -164,4 +164,4 @@ def save_playlist():
         'tracks_added': len(track_uris)
     })
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
