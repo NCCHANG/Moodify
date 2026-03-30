@@ -1,0 +1,348 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.logo span { color: #1db954; }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #888;
+}
+
+.user-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #1db954;
+}
+
+/* ── Hero / Search area ── */
+.hero {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 24px 40px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero h1 span { color: #1db954; }
+
+.hero p {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* ── Search box ── */
+.search-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 18px 140px 18px 22px;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus { border-color: #1db954; }
+
+.search-input::placeholder { color: #555; }
+
+.search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 22px;
+  background: #1db954;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.search-btn:hover { background: #1ed760; }
+.search-btn:active { transform: translateY(-50%) scale(0.97); }
+.search-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+/* ── Suggestion chips ── */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.chip {
+  padding: 7px 14px;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: #1db954;
+  color: #1db954;
+  background: #0d1f13;
+}
+
+/* ── Status / loading ── */
+.status {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #666;
+  display: none;
+}
+
+.status.visible { display: block; }
+
+.loading-dots span {
+  display: inline-block;
+  animation: blink 1.2s infinite;
+  font-size: 20px;
+  color: #1db954;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+/* ── Vibe summary ── */
+.vibe-summary {
+  max-width: 680px;
+  margin: 0 auto 8px;
+  padding: 0 24px;
+  display: none;
+}
+
+.vibe-summary.visible { display: block; }
+
+.vibe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.vibe-label {
+  font-size: 12px;
+  color: #555;
+  margin-right: 4px;
+}
+
+.vibe-tag {
+  padding: 4px 10px;
+  background: #0d1f13;
+  border: 1px solid #1a3d22;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #1db954;
+}
+
+/* ── Results grid ── */
+.results {
+  max-width: 680px;
+  margin: 24px auto 80px;
+  padding: 0 24px;
+  display: none;
+}
+
+.results.visible { display: block; }
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.results-title {
+  font-size: 14px;
+  color: #555;
+}
+
+.save-btn {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid #1db954;
+  color: #1db954;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.save-btn:hover { background: #1db954; color: #000; }
+.save-btn:disabled { border-color: #333; color: #555; cursor: not-allowed; }
+
+/* ── Song card ── */
+.song-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: #111;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: border-color 0.15s;
+}
+
+.song-card:hover { border-color: #2a2a2a; }
+
+.song-num {
+  font-size: 12px;
+  color: #444;
+  min-width: 20px;
+  margin-top: 3px;
+}
+
+.song-info { flex: 1; }
+
+.song-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.song-reason {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.song-source {
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.source-lastfm {
+  background: #1a1a2e;
+  color: #7b8cde;
+  border: 1px solid #2a2a4e;
+}
+
+.source-llm {
+  background: #1a1200;
+  color: #c9a227;
+  border: 1px solid #3a2e00;
+}
+
+/* ── Login screen ── */
+.login-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  padding: 24px;
+}
+
+.login-screen h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.login-screen p {
+  color: #888;
+  margin-bottom: 32px;
+  font-size: 15px;
+}
+
+.login-btn {
+  padding: 14px 36px;
+  background: #1db954;
+  color: #000;
+  border: none;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+  display: inline-block;
+}
+
+.login-btn:hover { background: #1ed760; transform: scale(1.02); }
+
+/* ── Toast notification ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #1db954;
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
