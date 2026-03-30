@@ -1,10 +1,12 @@
 import os
 import json
-import anthropic
+from groq import Groq
 
-client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+def get_client():
+    return Groq(api_key=os.getenv('GROQ_API_KEY'))
 
 def extract_search_params(user_query):
+    client = get_client()
     """
     Takes the user's natural language input and extracts
     structured search parameters for Last.fm.
@@ -29,17 +31,19 @@ def extract_search_params(user_query):
 
     Return ONLY the JSON, no explanation, no markdown, no backticks."""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
         max_tokens=300,
-        messages=[{"role": "user", "content": prompt}]
+        temperature=0.7
     )
     
-    raw = message.content[0].text.strip()
+    raw = response.choices[0].message.content.strip()
     return json.loads(raw)
 
 
 def rank_and_explain(user_query, taste_profile, candidates):
+    client = get_client()
     """
     Takes the candidate songs from Last.fm and the user's taste profile,
     then asks the LLM to pick the best matches and explain why.
@@ -70,23 +74,27 @@ def rank_and_explain(user_query, taste_profile, candidates):
                 {candidate_list}
 
                 Your job:
-                1. Pick the 8 songs from the list that BEST match the user's request AND fit their taste
+                1. Pick songs from the candidate list that BEST match the user's request AND fit their taste
                 2. Use your music knowledge to judge if a song genuinely fits the vibe — don't just match tags blindly
-                3. For each pick, write a SHORT one-sentence reason why it fits (be specific, mention the vibe/energy/mood)
-                4. You can pick fewer than 8 if you think only a few are good matches, but try to find at least 5 solid ones. If not, use your knowledge to suggest better alternatives that fit the vibe.
+                3. For each pick, write a SHORT one-sentence reason why it fits (be specific about the vibe/energy/mood)
+                4. You can pick fewer than 10 if you think only a few are good matches, but try to find at least 5 solid ones. If the candidate list doesn't have enough strong matches, use your own music knowledge to suggest better alternatives that fit the vibe — clearly mark these with "source": "llm" instead of "source": "lastfm"
+                5. Never suggest songs that don't exist. Only recommend real, verifiable tracks by real artists.
+                6. Consider the user's taste profile when choosing — pick songs that feel like a natural fit for someone with their listening history. But don't be afraid to suggest something outside their usual taste if it fits the vibe well!
 
-                Return ONLY a JSON array like this, no explanation, no markdown:
+                Return ONLY a JSON array, no explanation, no markdown:
                 [
-                {{"name": "Song Name", "artist": "Artist Name", "reason": "one sentence why it fits"}},
+                {{"name": "Song Name", "artist": "Artist Name", "reason": "one sentence why it fits", "source": "lastfm"}},
+                {{"name": "Song Name", "artist": "Artist Name", "reason": "one sentence why it fits", "source": "llm"}},
                 ...
                 ]
             """
 
-    message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
         max_tokens=1000,
-        messages=[{"role": "user", "content": prompt}]
+        temperature=0.7
     )
 
-    raw = message.content[0].text.strip()
+    raw = response.choices[0].message.content.strip()
     return json.loads(raw)
