@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import os
 from flask import Flask, redirect, request, session, jsonify
 from dotenv import load_dotenv
+from services.spotify import build_taste_profile
 
 load_dotenv()
 
@@ -61,6 +62,15 @@ def me():
         'top_tracks': [t['name'] + ' — ' + t['artists'][0]['name'] 
                        for t in top_tracks['items']]
     })
+
+@app.route('/taste-profile')
+def taste_profile():
+    sp = get_spotify_client()
+    if not sp:
+        return jsonify({'error': 'not logged in'}), 401
+    profile = build_taste_profile(sp)
+    session['taste_profile'] = profile  # store it for later use
+    return jsonify(profile)
 
 if __name__ == '__main__':
     app.run(debug=True)
