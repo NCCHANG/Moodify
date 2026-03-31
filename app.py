@@ -63,19 +63,6 @@ def callback():
     session['token_info'] = token_info
     return redirect('/')
 
-@app.route('/me')
-def me():
-    sp = get_spotify_client()
-    if not sp:
-        return jsonify({'error': 'not logged in'}), 401
-    user = sp.current_user()
-    top_tracks = sp.current_user_top_tracks(limit=15, time_range='medium_term')
-    return jsonify({
-        'name': user['display_name'],
-        'top_tracks': [t['name'] + ' — ' + t['artists'][0]['name'] 
-                       for t in top_tracks['items']]
-    })
-
 @app.route('/taste-profile')
 def taste_profile():
     sp = get_spotify_client()
@@ -133,7 +120,7 @@ def save_playlist():
     query = data.get('query', 'Moodify playlist')
     songs = data.get('songs', [])
 
-    # Create the playlist
+    # Create playlist
     try:
         playlist = sp.current_user_playlist_create(
             name=f"Moodify: {query}",
@@ -171,15 +158,6 @@ def save_playlist():
         'success': True,
         'playlist_url': playlist['external_urls']['spotify'],
         'tracks_added': len(track_uris)
-    })
-
-#debugging
-@app.route('/debug-redirect')
-def debug_redirect():
-    return jsonify({
-        'redirect_uri_being_used': get_redirect_uri(),
-        'render_hostname': os.getenv('RENDER_EXTERNAL_HOSTNAME'),
-        'is_render': os.getenv('RENDER')
     })
 if __name__ == '__main__':
     if os.getenv('RENDER'):
