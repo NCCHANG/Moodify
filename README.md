@@ -57,7 +57,7 @@ moodify/
 │   └── llm.py          # Groq/LLama prompts — vibe extraction + ranking
 ├── static/             
 │   └── index.html      # Frontend
-|   └── script.js       # Communicate frontend with backend
+|   └── script.js       # Frontend logic + backend communication
 |   └── style.css       # Frontend
 ├── .env                # Secret keys (never committed)
 └── requirements.txt
