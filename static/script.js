@@ -57,7 +57,7 @@ async function search() {
     const data = await res.json();
 
     if (data.error) {
-      showToast('Something went wrong — try again');
+      showToast('Data from LLM is failed to fetch', data.error);
       return;
     }
 
@@ -66,7 +66,7 @@ async function search() {
     renderSongs(data.recommendations, query);
 
   } catch (err) {
-    showToast('Connection error — is the server running?');
+    showToast('Connection error — is the server running?', err.message);
   } finally {
     document.getElementById('searchBtn').disabled = false;
     document.getElementById('searchBtn').textContent = 'Find songs';
@@ -150,12 +150,12 @@ async function savePlaylist() {
       showToast('Playlist saved to Spotify!');
       btn.textContent = 'Saved!';
     } else {
-      showToast('Could not save — try again');
+      showToast('Could not save — try again', data.error);
       btn.disabled = false;
       btn.textContent = 'Save to Spotify';
     }
-  } catch {
-    showToast('Connection error');
+  } catch (err) {
+    showToast('Connection error', err.message);
     btn.disabled = false;
     btn.textContent = 'Save to Spotify';
   }
@@ -170,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Toast ──
-function showToast(msg) {
+function showToast(msg, err = '') {
   const toast = document.getElementById('toast');
-  toast.textContent = msg;
+  toast.textContent = msg + (err ? `: ${err}` : '');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
