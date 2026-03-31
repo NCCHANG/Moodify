@@ -173,6 +173,15 @@ def save_playlist():
         'playlist_url': playlist['external_urls']['spotify'],
         'tracks_added': len(track_uris)
     })
+
+#debugging
+@app.route('/debug-redirect')
+def debug_redirect():
+    return jsonify({
+        'redirect_uri_being_used': get_redirect_uri(),
+        'render_hostname': os.getenv('RENDER_EXTERNAL_HOSTNAME'),
+        'is_render': os.getenv('RENDER')
+    })
 if __name__ == '__main__':
     is_production = os.getenv('PRODUCTION', 'False').lower() == 'true'
     if is_production:
