@@ -14,12 +14,12 @@ app = Flask(__name__, static_folder='static', static_url_path='')
 app.secret_key = os.getenv('SECRET_KEY')
 
 # Spotify scopes — permissions asking from user
-SCOPE = 'user-top-read user-library-read playlist-modify-public playlist-modify-private'
+SCOPE = 'user-top-read user-library-read user-read-recently-played playlist-modify-public playlist-modify-private'
 
 def get_redirect_uri():
     if os.getenv('RENDER'):
         return f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME')}/callback"
-    return 'http://localhost:5000/callback'
+    return 'http://127.0.0.1:5000/callback'
 
 def get_spotify_oauth():
     return SpotifyOAuth(
@@ -169,6 +169,33 @@ def save_playlist():
         'playlist_url': playlist['external_urls']['spotify'],
         'tracks_added': len(track_uris)
     })
+
+@app.route('/recently-played')
+def recently_played():
+    recent_play_display_limit = 15
+    sp = get_spotify_client()
+    if not sp:
+        return jsonify({'error': 'not logged in'}), 401
+
+    recent = sp.current_user_recently_played(limit=recent_play_display_limit)
+    tracks = []
+    seen = set()
+
+    for item in recent['items']:
+        track = item['track']
+        key = track['id']
+        if key in seen:
+            continue
+        seen.add(key)
+        tracks.append({
+            'name': track['name'],
+            'artist': track['artists'][0]['name'],
+            'album': track['album']['name'],
+            'image': track['album']['images'][1]['url'] if len(track['album']['images']) > 1 else track['album']['images'][0]['url'],
+            'spotify_url': track['external_urls']['spotify']
+        })
+
+    return jsonify(tracks)
 if __name__ == '__main__':
     if os.getenv('RENDER'):
         app.run(host='0.0.0.0', port=10000)

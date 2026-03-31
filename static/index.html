@@ -1,83 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moodify</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moodify</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Login screen (shown if not logged in) -->
-<div class="login-screen" id="loginScreen">
-  <div class="logo">
-    mood<span>ify</span>
-  </div>
-  <h2>Music that matches your mood</h2>
-  <p>Connect your Spotify account to get<br>personalised recommendations powered by AI</p>
-  <a href="/login" class="login-btn">Connect Spotify</a>
-</div>
-
-<!-- Main app (shown when logged in) -->
-<div id="mainApp">
-
-  <header>
-    <div class="logo">mood<span>ify</span></div>
-    <div class="user-info">
-      <div class="user-dot"></div>
-      <span id="userName">Loading...</span>
-      <a id="logoutBtn" href="/logout">Log out</a>
+  <!-- Login screen (shown if not logged in) -->
+  <div class="login-screen" id="loginScreen">
+    <div class="logo">
+      mood<span>ify</span>
     </div>
-  </header>
-
-  <div class="hero">
-    <h1>What's your<br><span>mood</span> right now?</h1>
-    <p>Describe a vibe, place, feeling, or activity.<br>Moodify will find the perfect soundtrack.</p>
-
-    <div class="search-wrap">
-      <input
-        type="text"
-        class="search-input"
-        id="queryInput"
-        placeholder="e.g. songs that feel like a nightclub..."
-        maxlength="200"
-      />
-      <button class="search-btn" id="searchBtn" onclick="search()">Find songs</button>
-    </div>
-
-    <div class="suggestions">
-      <div class="chip" onclick="setQuery('high energy EDM festival')">EDM festival</div>
-      <div class="chip" onclick="setQuery('late night drive alone')">late night drive</div>
-      <div class="chip" onclick="setQuery('relaxing Sunday morning')">relaxing Sunday</div>
-      <div class="chip" onclick="setQuery('pregame hype playlist')">pregame hype</div>
-      <div class="chip" onclick="setQuery('focus and study deep work')">focus mode</div>
-      <div class="chip" onclick="setQuery('rainy day feeling nostalgic')">rainy day</div>
-    </div>
+    <h2>Music that matches your mood</h2>
+    <p>Connect your Spotify account to get<br>personalised recommendations powered by AI</p>
+    <a href="/login" class="login-btn">Connect Spotify</a>
   </div>
 
-  <div class="status" id="status">
-    <div class="loading-dots">
-      <span>.</span><span>.</span><span>.</span>
+  <!-- Main app (shown when logged in) -->
+  <div id="mainApp">
+
+    <header>
+      <div class="logo">mood<span>ify</span></div>
+      <div class="user-info">
+        <div class="user-dot"></div>
+        <span id="userName">Loading...</span>
+        <a id="logoutBtn" href="/logout">Log out</a>
+      </div>
+    </header>
+
+    <!-- Two column layout -->
+    <div class="app-layout">
+
+      <!-- Left: main content -->
+      <div class="main-content">
+        <div class="hero">
+          <h1>What's your<br><span>mood</span> right now?</h1>
+          <p>Describe a vibe, place, feeling, or activity.<br>Moodify will find the perfect soundtrack.</p>
+
+          <div class="search-wrap">
+            <input type="text" class="search-input" id="queryInput"
+              placeholder="e.g. songs that feel like a nightclub..." maxlength="200" />
+            <button class="search-btn" id="searchBtn" onclick="search()">Find songs</button>
+          </div>
+
+          <div class="suggestions">
+            <div class="chip" onclick="setQuery('high energy EDM festival')">EDM festival</div>
+            <div class="chip" onclick="setQuery('late night drive alone')">late night drive</div>
+            <div class="chip" onclick="setQuery('relaxing Sunday morning')">relaxing Sunday</div>
+            <div class="chip" onclick="setQuery('pregame hype playlist')">pregame hype</div>
+            <div class="chip" onclick="setQuery('focus and study deep work')">focus mode</div>
+            <div class="chip" onclick="setQuery('rainy day feeling nostalgic')">rainy day</div>
+          </div>
+        </div>
+
+        <div class="status" id="status">
+          <div class="loading-dots">
+            <span>.</span><span>.</span><span>.</span>
+          </div>
+          <div id="statusText">Finding your vibe</div>
+        </div>
+
+        <div class="vibe-summary" id="vibeSummary">
+          <div class="vibe-tags" id="vibeTags"></div>
+        </div>
+
+        <div class="results" id="results">
+          <div class="results-header">
+            <span class="results-title" id="resultsTitle"></span>
+            <button class="save-btn" id="saveBtn" onclick="savePlaylist()">Save to Spotify</button>
+          </div>
+          <div id="songList"></div>
+        </div>
+      </div>
+
+      <!-- Right: recently played sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">Recently played</div>
+        <div id="recentList" class="recent-list">
+          <div class="recent-loading">Loading...</div>
+        </div>
+      </div>
+
     </div>
-    <div id="statusText">Finding your vibe</div>
   </div>
 
-  <div class="vibe-summary" id="vibeSummary">
-    <div class="vibe-tags" id="vibeTags"></div>
-  </div>
+  <div class="toast" id="toast"></div>
 
-  <div class="results" id="results">
-    <div class="results-header">
-      <span class="results-title" id="resultsTitle"></span>
-      <button class="save-btn" id="saveBtn" onclick="savePlaylist()">Save to Spotify</button>
-    </div>
-    <div id="songList"></div>
-  </div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>

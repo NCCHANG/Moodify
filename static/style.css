@@ -386,3 +386,118 @@ header {
 #statusText {
   margin-top: 8px;
 }
+
+/* ── Two column layout ── */
+.app-layout {
+  display: flex;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  align-items: flex-start;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; /* prevents flex overflow */
+  padding-right: 32px;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 24px;
+  padding-top: 40px;
+}
+
+.sidebar-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recent-loading {
+  font-size: 13px;
+  color: #444;
+  padding: 8px 0;
+}
+
+/* ── Recent track card ── */
+.recent-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.recent-card:hover {
+  background: #161616;
+}
+
+.recent-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.recent-info {
+  flex: 1;
+  min-width: 0; /* allows text truncation */
+}
+
+.recent-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-artist {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* ── Hide sidebar on small screens ── */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+
+  .main-content {
+    padding-right: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+    padding-top: 0;
+    border-top: 1px solid #1a1a1a;
+    padding-top: 24px;
+    margin-top: 8px;
+    margin-bottom: 40px;
+  }
+}

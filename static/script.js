@@ -12,6 +12,7 @@ async function init() {
     const data = await res.json();
     document.getElementById('userName').textContent = data.name;
     showApp();
+    loadRecentlyPlayed();
   } catch {
     showLogin();
   }
@@ -159,6 +160,34 @@ async function savePlaylist() {
     showToast('Connection error', err.message);
     btn.disabled = false;
     btn.textContent = 'Save to Spotify';
+  }
+}
+
+// ── Load recently played ──
+async function loadRecentlyPlayed() {
+  const container = document.getElementById('recentList');
+
+  try {
+    const res = await fetch('/recently-played');
+    const tracks = await res.json();
+
+    if (!tracks.length) {
+      container.innerHTML = '<div class="recent-loading">No recent tracks found</div>';
+      return;
+    }
+
+    container.innerHTML = tracks.map(track => `
+      <a class="recent-card" href="${track.spotify_url}" target="_blank" rel="noopener">
+        <img class="recent-img" src="${track.image}" alt="${track.album}" loading="lazy"/>
+        <div class="recent-info">
+          <div class="recent-name">${track.name}</div>
+          <div class="recent-artist">${track.artist}</div>
+        </div>
+      </a>
+    `).join('');
+
+  } catch {
+    container.innerHTML = '<div class="recent-loading">Could not load recent tracks</div>';
   }
 }
 
