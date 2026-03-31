@@ -63,6 +63,16 @@ def callback():
     session['token_info'] = token_info
     return redirect('/')
 
+@app.route('/me')
+def me():
+    sp = get_spotify_client()
+    if not sp:
+        return jsonify({'error': 'not logged in'}), 401
+    user_info = sp.current_user()
+    return jsonify({
+        'name': user_info['display_name']
+    })
+
 @app.route('/taste-profile')
 def taste_profile():
     sp = get_spotify_client()
