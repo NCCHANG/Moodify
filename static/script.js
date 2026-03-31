@@ -72,6 +72,9 @@ async function search() {
     document.getElementById('searchBtn').disabled = false;
     document.getElementById('searchBtn').textContent = 'Find songs';
     document.getElementById('status').classList.remove('visible');
+    // Reset save button for new search
+    document.getElementById('saveBtn').disabled = false;
+    document.getElementById('saveBtn').textContent = 'Save to Spotify';
   }
 }
 
