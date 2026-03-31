@@ -91,9 +91,8 @@ def search():
     if not sp:
         return jsonify({'error': 'not logged in'}), 401
 
-    # data = request.get_json()
-    # user_query = data.get('query', '')
-    user_query = "songs that feel like a nightclub" # hardcoded for now to speed up testing, replace with above in prod
+    data = request.get_json()
+    user_query = data.get('query', '')
 
     if not user_query:
         return jsonify({'error': 'no query provided'}), 400
