@@ -45,6 +45,11 @@ def login():
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
 @app.route('/callback')
 def callback():
     sp_oauth = get_spotify_oauth()
@@ -164,4 +169,8 @@ def save_playlist():
         'tracks_added': len(track_uris)
     })
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=10000)
+    is_production = os.getenv('PRODUCTION', 'False').lower() == 'true'
+    if is_production:
+        app.run(host='0.0.0.0', port=10000)
+    else:
+        app.run(debug=False)

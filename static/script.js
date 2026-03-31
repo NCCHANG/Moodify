@@ -18,13 +18,13 @@ async function init() {
 }
 
 function showLogin() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('mainApp').classList.remove('visible');
 }
 
 function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.add('visible');
 }
 
 // ── Search ──
