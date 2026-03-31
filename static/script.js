@@ -37,7 +37,6 @@ async function search() {
   const query = document.getElementById('queryInput').value.trim();
   if (!query) return;
 
-  currentQuery = query;
   currentRecommendations = [];
 
   // UI state: loading
