@@ -183,8 +183,7 @@ def debug_redirect():
         'is_render': os.getenv('RENDER')
     })
 if __name__ == '__main__':
-    is_production = os.getenv('PRODUCTION', 'False').lower() == 'true'
-    if is_production:
+    if os.getenv('RENDER'):
         app.run(host='0.0.0.0', port=10000)
     else:
         app.run(debug=False)
