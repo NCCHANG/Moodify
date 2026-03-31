@@ -16,11 +16,16 @@ app.secret_key = os.getenv('SECRET_KEY')
 # Spotify scopes — permissions asking from user
 SCOPE = 'user-top-read user-library-read playlist-modify-public playlist-modify-private'
 
+def get_redirect_uri():
+    if os.getenv('RENDER'):
+        return f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME')}/callback"
+    return 'http://localhost:5000/callback'
+
 def get_spotify_oauth():
     return SpotifyOAuth(
         client_id=os.getenv('SPOTIFY_CLIENT_ID'),
         client_secret=os.getenv('SPOTIFY_CLIENT_SECRET'),
-        redirect_uri=os.getenv('SPOTIFY_REDIRECT_URI'),
+        redirect_uri=get_redirect_uri(),
         scope=SCOPE
     )
 
