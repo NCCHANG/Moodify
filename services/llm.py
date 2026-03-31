@@ -131,12 +131,14 @@ def rank_and_explain(user_query, taste_profile, candidates):
         {candidate_list}
 
         For each recommendation, write a specific one-sentence reason that mentions concrete musical qualities (tempo, energy, texture, mood) — not vague phrases like "fits the vibe" or "matches the energy".
+        Remember to return valid JSON if an artist name like "Axwell/\Ingrosso" causes formatting issues fix it to valid json format.
 
         Return ONLY a JSON array, no explanation, no markdown:
         [
         {{"name": "Song Name", "artist": "Artist Name", "reason": "specific reason mentioning musical qualities", "source": "lastfm"}},
         {{"name": "Song Name", "artist": "Artist Name", "reason": "specific reason mentioning musical qualities", "source": "llm"}},
         ...
+        ]
             """
 
     response = client.chat.completions.create(
@@ -147,4 +149,5 @@ def rank_and_explain(user_query, taste_profile, candidates):
     )
 
     raw = response.choices[0].message.content.strip()
+    print('LLM raw response for ranked recommendations:', raw)  # helpful for debugging
     return json.loads(raw)
