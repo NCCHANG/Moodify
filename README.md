@@ -7,7 +7,7 @@ By typing things like:
 - *"relaxing Sunday morning coffee"*
 - *"pregame hype before going out"*
 
-Moodify interprets requests using an LLM specifically [Groq](https://groq.com/), searches for music on [LastFM](https://www.last.fm/home), cross-references it with your personal Spotify listening history, and then the LLM chooses the most suitable music that best describes the vibe from LastFM. Last but not least, save it to your real Spotify account!
+Moodify interprets requests using an LLM specifically [Groq](https://groq.com/), searches for tracks on [LastFM](https://www.last.fm/home), cross-references it with your personal Spotify listening history, and then the LLM chooses the most suitable music that best describes the vibe from LastFM. Last but not least, save it to your real Spotify account!
 
 
 ---
@@ -19,6 +19,8 @@ User types a vibe
 LLM extracts genres, mood, tempo, reference artists
         ↓
 Last.fm API searches for real verified tracks matching those tags
+        ↓
+Last.fm API searches top tracks for reference artists
         ↓
 Spotify API fetches user's top artists, top tracks, recently played
         ↓
@@ -62,6 +64,22 @@ moodify/
 ├── .env                # Secret keys (never committed)
 └── requirements.txt
 ```
+
+---
+
+## .env variable
+```
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+LASTFM_API_KEY=your_lastfm_api_key
+GROQ_API_KEY=your_groq_api_key
+SECRET_KEY=any_random_string
+```
+
+**Getting API keys:**
+- Spotify — [developer.spotify.com](https://developer.spotify.com) → create app, set redirect URI to `http://127.0.0.1:5000/callback`
+- Last.fm — [last.fm/api/account/create](https://www.last.fm/api/account/create) (instant, free)
+- Groq — [console.groq.com](https://console.groq.com) (free tier, no credit card)
 
 ---
 
