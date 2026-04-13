@@ -66,6 +66,21 @@ moodify/
 ```
 
 ---
+## Running locally
+> [!NOTE]
+> Due to limitations in the Spotify API, users can't authenticate with Moodify unless I add them manually. Therefore, the user needs to run it locally if they want to use the web app. A Spotify Premium Account is required to use the Spotify API (which is frustrating). Trying to fix the limitation by providing a continue as a guest option for the user.
+**Prerequisites:** Python 3.10+, a Spotify Premium account.
+
+```bash
+# Clone and set up
+git clone https://github.com/NCCHANG/moodify
+cd moodify
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Create a `.env` file with the following contents on .env variable section. 
 
 ## .env variable
 ```
